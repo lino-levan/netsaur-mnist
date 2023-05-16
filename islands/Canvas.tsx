@@ -98,16 +98,19 @@ export default function Canvas() {
 
             for (let dx = -size; dx < size; dx++) {
               for (let dy = -size; dy < size; dy++) {
+                const position = x + dx + (y + dy) * 28;
                 if (mode === "draw") {
-                  newPixels[x + dx + (y + dy) * 28] -= Math.pow(
+                  newPixels[position] -= Math.pow(
                     strength,
                     Math.abs(dx) + Math.abs(dy),
                   );
+                  newPixels[position] = Math.max(newPixels[position], 0);
                 } else if (mode === "erase") {
-                  newPixels[x + dx + (y + dy) * 28] += Math.pow(
+                  newPixels[position] += Math.pow(
                     strength,
                     Math.abs(dx) + Math.abs(dy),
                   );
+                  newPixels[position] = Math.min(newPixels[position], 1);
                 }
               }
             }
