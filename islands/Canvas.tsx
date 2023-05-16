@@ -3,12 +3,12 @@ import IconBallpen from "https://deno.land/x/tabler_icons_tsx@0.0.3/tsx/ballpen.
 import IconEraser from "https://deno.land/x/tabler_icons_tsx@0.0.3/tsx/eraser.tsx";
 import IconClearAll from "https://deno.land/x/tabler_icons_tsx@0.0.3/tsx/clear-all.tsx";
 import {
-  setupBackend,
-  WASM,
-  Sequential,
-  tensor,
   Rank,
+  Sequential,
+  setupBackend,
   Tensor,
+  tensor,
+  WASM,
 } from "https://deno.land/x/netsaur@0.2.6/web.ts";
 
 export default function Canvas() {
@@ -20,7 +20,7 @@ export default function Canvas() {
   const [predicting, setPredicting] = useState(false);
   const [strength, setStrength] = useState(0.1);
   const [pixels, setPixels] = useState<Float32Array>(
-    new Float32Array(784).map(() => 1)
+    new Float32Array(784).map(() => 1),
   );
   const [network, setNetwork] = useState<Sequential | undefined>(undefined);
 
@@ -39,11 +39,11 @@ export default function Canvas() {
   function normalize(mat: Tensor<Rank>) {
     const mean = mat.data.reduce((a, k) => a + (1 - k), 0) / 784;
     const sd = Math.sqrt(
-      mat.data.reduce((a, k) => a + (1 - k) * (1 - k), 0) / 784 - mean * mean
+      mat.data.reduce((a, k) => a + (1 - k) * (1 - k), 0) / 784 - mean * mean,
     );
     return new Tensor(
       mat.data.map((k) => (1 - k - mean) / sd),
-      mat.shape
+      mat.shape,
     );
   }
 
@@ -61,7 +61,7 @@ export default function Canvas() {
 
     if (!network) {
       setupBackend(WASM)
-        .then(() => fetch("mnist.test.bin"))
+        .then(() => fetch("mnist.st"))
         .then((res) => res.arrayBuffer())
         .then((buffer) => setNetwork(Sequential.load(new Uint8Array(buffer))));
     }
@@ -88,7 +88,7 @@ export default function Canvas() {
             if (!draw) return;
 
             const canvas = document.getElementById(
-              "canvas"
+              "canvas",
             ) as HTMLCanvasElement;
             const rect = canvas.getBoundingClientRect();
             const x = Math.floor((e.clientX - rect.left) / 20);
@@ -101,12 +101,12 @@ export default function Canvas() {
                 if (mode === "draw") {
                   newPixels[x + dx + (y + dy) * 28] -= Math.pow(
                     strength,
-                    Math.abs(dx) + Math.abs(dy)
+                    Math.abs(dx) + Math.abs(dy),
                   );
                 } else if (mode === "erase") {
                   newPixels[x + dx + (y + dy) * 28] += Math.pow(
                     strength,
-                    Math.abs(dx) + Math.abs(dy)
+                    Math.abs(dx) + Math.abs(dy),
                   );
                 }
               }
@@ -145,7 +145,7 @@ export default function Canvas() {
           <button
             class="px-3 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 flex gap-2"
             onClick={() => {
-              setPixels(pixels.map(_ => 1));
+              setPixels(pixels.map((_) => 1));
             }}
           >
             <IconClearAll class="w-6 h-6" /> Clear

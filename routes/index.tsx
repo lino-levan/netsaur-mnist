@@ -7,9 +7,12 @@ export default function Home() {
       <Head>
         <title>MNIST Demo</title>
       </Head>
-      <div class="p-4 mx-auto max-w-screen">
-        <Canvas />
-      </div>
+      <body class="bg-green-100">
+        <div class="p-4 mx-auto max-w-screen">
+          <div class="font-bold text-xl">Netsaur MNIST Demo</div>
+          <Canvas />
+        </div>
+      </body>
     </>
   );
 }
